@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -16,7 +17,7 @@ public class MemberController {
 	private final MemberService memberService;
 
 	@PostMapping
-	public ResponseEntity register(@RequestBody RegisterRequest request) {
+	public ResponseEntity register(@RequestBody @Valid RegisterRequest request) {
 		Long savedMemberId = memberService.register(request);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedMemberId);
