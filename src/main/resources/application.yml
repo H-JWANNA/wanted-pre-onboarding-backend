@@ -1,0 +1,44 @@
+#Aws DB and Jpa and Jwt and debug setting
+spring:
+  server:
+    port: 8080
+    servlet:
+      encoding:
+        force-response: true
+
+  # db
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${LOCAL_DB_URL}?rewriteBatchedStatements=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: ${LOCAL_DB_USERNAME}
+    password: ${LOCAL_DB_PASSWORD}
+
+  # jpa
+  jpa:
+    # auto create schema
+    hibernate:
+      ddl-auto: create
+    # show sql query
+    show-sql: true
+    # SQL pretty print
+    properties:
+      hibernate:
+        format_sql: true
+    # colorful console
+    output:
+      ansi:
+        enabled: always
+
+
+# jwt
+jwt:
+  access-token-expiration-minutes: 10
+  refresh-token-expiration-minutes: 1440
+
+## logging above debugs
+logging:
+  level:
+    org:
+      springframework:
+        orm:
+          jpa: DEBUG
