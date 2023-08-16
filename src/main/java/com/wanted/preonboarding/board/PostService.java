@@ -40,4 +40,12 @@ public class PostService {
 				pagedPost.getTotalPages(),
 				pagedPost.getTotalElements()));
 	}
+
+	@Transactional(readOnly = true)
+	public PostResponse getPost(Long postId) {
+		Post post = postRepository.findById(postId)
+			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글 입니다."));
+
+		return postMapper.toResponse(post);
+	}
 }
