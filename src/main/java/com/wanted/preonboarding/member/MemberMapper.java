@@ -10,4 +10,6 @@ public interface MemberMapper {
 	@Mapping(source = "request.email", target = "email")
 	@Mapping(source = "encryptedPassword", target = "password")
 	Member toEntity(RegisterRequest request, String encryptedPassword);
+
+	LoginResponse toLoginResponse(Member member);
 }
