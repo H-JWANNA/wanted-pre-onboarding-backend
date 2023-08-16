@@ -62,6 +62,15 @@ public class PostService {
 		return postMapper.toResponse(savedPost);
 	}
 
+	@Transactional
+	public void delete(Long postId, Member member) {
+		Post post = verifyExistPost(postId);
+		Long memberId = verifyExistMember(member);
+		verifyMemberEqualToAuthor(memberId, post);
+
+		postRepository.deleteById(postId);
+	}
+
 	private void verifyMemberEqualToAuthor(Long memberId, Post post) {
 		if (!memberId.equals(post.getAuthor())) {
 			throw new IllegalArgumentException("작성자만 수정 및 삭제가 가능합니다.");
