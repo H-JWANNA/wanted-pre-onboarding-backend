@@ -21,7 +21,7 @@
 
 **4. 실행**
 - 루트 디렉토리에서 ```java -jar build/libs/pre-onboarding-0.0.1-SNAPSHOT.jar```를 통해 실행한다.
-- 이후 하단의 API 명세서를 통해 엔드포인트를 확인한다.
+- 이후 하단의 API 명세서를 통해 Postman 등으로 엔드포인트를 확인한다.
 
 <br>
 
