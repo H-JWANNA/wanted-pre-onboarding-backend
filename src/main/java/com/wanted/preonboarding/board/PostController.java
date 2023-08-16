@@ -29,7 +29,7 @@ public class PostController {
 		PostResponse response = postService.write(request, member);
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
-
+  
 	@GetMapping
 	public ResponseEntity getPosts(
 		@RequestParam @Positive int page,
@@ -46,5 +46,5 @@ public class PostController {
 		PostResponse response = postService.getPost(postId);
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
-	}
+  }
 }
