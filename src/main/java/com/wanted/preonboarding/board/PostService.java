@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.wanted.preonboarding.common.CustomBeanUtils;
 import com.wanted.preonboarding.member.Member;
 
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class PostService {
 	private final PostMapper postMapper;
 	private final PostRepository postRepository;
+	private final CustomBeanUtils<Post> beanUtils;
 
 	@Transactional
 	public PostResponse write(PostRequest dto, Member member) {
@@ -46,6 +48,32 @@ public class PostService {
 		Post post = verifyExistPost(postId);
 
 		return postMapper.toResponse(post);
+	}
+
+	@Transactional
+	public PostResponse update(Long postId, PostRequest request, Member member) {
+		Post post = verifyExistPost(postId);
+		Long memberId = verifyExistMember(member);
+		verifyMemberEqualToAuthor(memberId, post);
+
+		Post updatePost = beanUtils.copyNonNullProperties(postMapper.toEntity(request), post);
+		Post savedPost = postRepository.save(updatePost);
+
+		return postMapper.toResponse(savedPost);
+	}
+
+	private void verifyMemberEqualToAuthor(Long memberId, Post post) {
+		if (!memberId.equals(post.getAuthor())) {
+			throw new IllegalArgumentException("작성자만 수정 및 삭제가 가능합니다.");
+		}
+	}
+
+	private Long verifyExistMember(Member member) {
+		if (member == null) {
+			throw new IllegalArgumentException("로그인 정보가 없습니다.");
+		}
+
+		return member.getMemberId();
 	}
 
 	private Post verifyExistPost(Long postId) {
