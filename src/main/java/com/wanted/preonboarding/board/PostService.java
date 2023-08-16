@@ -1,13 +1,13 @@
 package com.wanted.preonboarding.board;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.wanted.preonboarding.common.CustomBeanUtils;
 import com.wanted.preonboarding.member.Member;
 
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 public class PostService {
 	private final PostMapper postMapper;
 	private final PostRepository postRepository;
-	private final CustomBeanUtils<Post> beanUtils;
 
 	@Transactional
 	public PostResponse write(PostRequest dto, Member member) {
@@ -56,8 +55,10 @@ public class PostService {
 		Long memberId = verifyExistMember(member);
 		verifyMemberEqualToAuthor(memberId, post);
 
-		Post updatePost = beanUtils.copyNonNullProperties(postMapper.toEntity(request), post);
-		Post savedPost = postRepository.save(updatePost);
+		Optional.ofNullable(request.title()).ifPresent(post::setTitle);
+		Optional.ofNullable(request.content()).ifPresent(post::setContent);
+
+		Post savedPost = postRepository.save(post);
 
 		return postMapper.toResponse(savedPost);
 	}
