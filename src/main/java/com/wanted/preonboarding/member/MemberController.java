@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 public class MemberController {
 	private final MemberService memberService;
 
-	@PostMapping
+	@PostMapping("/register")
 	public ResponseEntity register(@RequestBody @Valid RegisterRequest request) {
 		Long savedMemberId = memberService.register(request);
 
