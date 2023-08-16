@@ -1,5 +1,9 @@
 package com.wanted.preonboarding.board;
 
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,5 +23,21 @@ public class PostService {
 		Post savedPost = postRepository.save(post);
 
 		return postMapper.toResponse(savedPost);
+	}
+
+	@Transactional(readOnly = true)
+	public PostMultiResponse<PostResponse> getPosts(int page, int size) {
+		Page<Post> pagedPost = postRepository.findAll(PageRequest.of(page, size));
+
+		List<PostResponse> responses = pagedPost.getContent().stream()
+			.map(postMapper::toResponse)
+			.toList();
+
+		return new PostMultiResponse<>(responses,
+			new PostMultiResponse.PageInfo(
+				pagedPost.getNumber() + 1,
+				pagedPost.getSize(),
+				pagedPost.getTotalPages(),
+				pagedPost.getTotalElements()));
 	}
 }
