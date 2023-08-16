@@ -50,7 +50,7 @@ public class PostService {
 	}
 
 	@Transactional
-	public PostResponse update(Long postId, PostRequest request, Member member) {
+	public PostResponse update(Long postId, PostUpdateRequest request, Member member) {
 		Post post = verifyExistPost(postId);
 		Long memberId = verifyExistMember(member);
 		verifyMemberEqualToAuthor(memberId, post);

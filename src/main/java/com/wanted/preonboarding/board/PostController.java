@@ -53,7 +53,7 @@ public class PostController {
 	@PatchMapping("/{postId}")
 	public ResponseEntity update(
 		@PathVariable @Positive Long postId,
-		@RequestBody PostRequest request,
+		@RequestBody PostUpdateRequest request,
 		@AuthenticationPrincipal MemberDetails member) {
 
 		PostResponse response = postService.update(postId, request, member);
