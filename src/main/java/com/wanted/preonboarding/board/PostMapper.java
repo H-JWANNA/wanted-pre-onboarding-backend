@@ -14,5 +14,7 @@ public interface PostMapper {
 	@Mapping(source = "member.memberId", target = "author")
 	Post toEntity(PostRequest dto, Member member);
 
+	Post toEntity(PostRequest dto);
+
 	PostResponse toResponse(Post entity);
 }
