@@ -9,11 +9,9 @@ import com.wanted.preonboarding.member.Member;
 
 public class MemberDetails extends Member implements UserDetails {
 	public MemberDetails(Member member) {
-		MemberDetails.builder()
-			.memberId(member.getMemberId())
-			.email(member.getEmail())
-			.password(member.getPassword())
-			.build();
+		setMemberId(member.getMemberId());
+		setEmail(member.getEmail());
+		setPassword(member.getPassword());
 	}
 
 	@Override
@@ -28,21 +26,21 @@ public class MemberDetails extends Member implements UserDetails {
 
 	@Override
 	public boolean isAccountNonExpired() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return false;
+		return true;
 	}
 }
