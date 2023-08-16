@@ -43,9 +43,13 @@ public class PostService {
 
 	@Transactional(readOnly = true)
 	public PostResponse getPost(Long postId) {
-		Post post = postRepository.findById(postId)
-			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글 입니다."));
+		Post post = verifyExistPost(postId);
 
 		return postMapper.toResponse(post);
+	}
+
+	private Post verifyExistPost(Long postId) {
+		return postRepository.findById(postId)
+			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글 입니다."));
 	}
 }
